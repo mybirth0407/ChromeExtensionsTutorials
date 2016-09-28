@@ -1,4 +1,4 @@
 // alert(document.domain);
-document.write("hello extensions!");
+// document.write("hello extensions!");
 
 // chrome.*
