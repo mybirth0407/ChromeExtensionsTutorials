@@ -1,29 +1,24 @@
 {
   "manifest_version": 2,
 
-  "name": "Hello World!",
-  "description": "This extension shows a Google Image search result for the current page",
+  "name": "Twitter Social Toolkit",
+  "description": "Allows you to share text, images, content, links, page, etc, to your twitter account",
   "version": "1.0",
 
-  "browser_action": {
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
-  },
-
   "icons": {
-    "64": "icon.png"
+    "128": "icon.png",
+    "64": "icon.png",
+    "32": "icon.png",
+    "16": "icon.png"
   },
 
-  "content_scripts": [
-    {
-      "matches": ["http://*/*", "https://*/*"], // Every Page
-      "css": ["style.css"],
-      "js": ["jquery-3.1.1.js", "myscript.js"]
-    }
-  ],
-  "web_accessible_resources": [
-    "toolbar.html",
-    "style.css"
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "permissions": [
+    "contextMenus"
   ]
+
 }
 
