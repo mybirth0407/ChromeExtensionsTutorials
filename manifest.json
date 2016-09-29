@@ -10,16 +10,6 @@
     "default_popup": "popup.html"
   },
 
-  "background": {
-    "scripts": ["background.js"]
-  },
-
-  // history, bookmark manager, newtab
-  "chrome_url_overrides": {
-    // "newtab": "newtab.html"
-    "history": "newtab.html"
-  },
-
   "icons": {
     "64": "icon.png"
   },
@@ -27,8 +17,13 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"], // Every Page
-      "js": ["myscript.js"]
+      "css": ["style.css"],
+      "js": ["jquery-3.1.1.js", "myscript.js"]
     }
+  ],
+  "web_accessible_resources": [
+    "toolbar.html",
+    "style.css"
   ]
 }
 
