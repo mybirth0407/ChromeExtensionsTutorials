@@ -14,14 +14,21 @@
     "scripts": ["background.js"]
   },
 
+  // history, bookmark manager, newtab
+  "chrome_url_overrides": {
+    // "newtab": "newtab.html"
+    "history": "newtab.html"
+  },
+
   "icons": {
     "64": "icon.png"
   },
 
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"], // * Every Page
+      "matches": ["http://*/*", "https://*/*"], // Every Page
       "js": ["myscript.js"]
     }
   ]
 }
+
