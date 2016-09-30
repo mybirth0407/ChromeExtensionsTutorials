@@ -1,58 +1,83 @@
-var contextsList = ["selection", "link", "image", "page"];
+var messages = [];
+var ids = [];
+var latestId;
 
-chrome.contextMenus.create({
-  title: "",
-  contexts: ["selection"],
-  onclick: myfunction
+$(function() {
+  setInterval(engine, 20000);
 });
 
-for (var i = 0; i < contextsList.length; i++) {
-  var context = contextsList[i];
-  var titleX =  "Twitter Toolkit: Share this "
-             + context
-             + " on your twitter profile";
-  chrome.contextMenus.create({
-    title: titleX,
-    contexts: [context],
-    onclick: myfunction,
-    id: context
+function engine() {
+  var newTweets = [];
+  $.get("https://twitter.com/i/notifications", function(data) {
+    // console.log(data);
+    var htmlData = data;
+
+    // $("body").append(htmlData);
+    // $("body").append($(htmlData).find("#stream itmes id  "));
+
+    $data = $(htmlData).find("#stream-items-id").eq(0);
+    $data.find(".activity-truncated-tweet").remove();
+    $data.find(".activity-supplement").remove();
+    $("body").append($data);
+
+    for (i = 0; i < $data.find("li.stream-item").length ; i++) {
+      messages[i] = ($($data).find("li.stream-item").eq(i)
+                             .find("div.-item-activity-line").text())
+                             .replace(/\s+/g, '').trim();
+    }
+    // latestId = ids[0];
+    if (latestId == ids[0]) {
+      // no update
+    }
+    else if (latestId === undefined) {
+      // first run browser session
+      var firstRun = {
+        type: "basic",
+        title: "Twitter Notifier",
+        message: "You may like to check your witter account"
+               + " for latest notifications",
+        iconUrl: "icon.png",
+      };
+
+      chrome.notifications.create(firstRun);
+      latestId = ids[0];
+    }
+    else if (latestId != ids[0]) {
+      for (i = 0; latestId != ids.length; i++) {
+        if (latestId == ids[i]) {
+          break;
+        }
+        else {
+          if (messages[i] != "") {
+            newTweets[i] = messages[i];
+          }
+        }
+      }
+      latestId = ids[0];
+    }
+
+    if (newTweets.length == 0) {
+      // nothing
+    }
+    else {
+      for (i = 0; i < newTweets.length; i++) {
+        var myTweet = {
+          type: "basic",
+          title: "You Got A new Notification On Twitter - Twitter Notifier",
+          message: newTweets[i],
+          contextMessage: "Twitter Notifier",
+          iconUrl: "icon.png",
+          buttons: [{
+            title: "Open Link",
+          }],
+        }
+        chrome.notifications.onButtonClicked.addListener(function() {
+
+        });
+        chrome.notifications.create(myTweet);
+      }
+    }
+    console.log(latestId);
+    console.log(newTweets);
   });
-}
-
-// selection, link, image, page 
-
-function myfunction(data, tab) {
-  // alert("you just click me!");
-  // alert(selectedText.selectionText);
-  switch (data.menuItemId) {
-    case "selection":
-      // chrome.tabs.create({url: "https://twitter.com/intent/tweet?text="
-      //                        + data.selectionText});
-      chrome.windows.create({url: "https://twitter.com/intent/tweet?text="
-                             + encodeURIComponent(data.selectionText),
-                             type: "panel"});
-      break;
-    case "link":
-      chrome.windows.create({url: "https://twitter.com/intent/tweet?url="
-                             + encodeURIComponent(data.linkUrl),
-                             type: "panel"});
-      break;
-    case "image":
-      chrome.windows.create({url: "https://twitter.com/intent/tweet?url="
-                             + encodeURIComponent(data.srcUrl),
-                             type: "panel"});
-      break;
-    // case "page":
-    //   chrome.tabs.create({
-    //     url: "https://twitter.com/intent/tweet?text=MyPage"});
-    case "page":
-      chrome.windows.create({url: "https://twitter.com/intent/tweet?text="
-                             + encodeURIComponent(tab.title)
-                             + "&url="
-                             + data.pageUrl,
-                             type: "panel"});
-      break;
-  } 
-  // chrome.tabs.create({url: "https://twitter.com/intent/tweet?text="
-  //                        + selectedText.selectionText});
 }
