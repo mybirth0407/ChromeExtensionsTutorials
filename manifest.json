@@ -1,24 +1,23 @@
 {
   "manifest_version": 2,
 
-  "name": "Rich Twitter Notifier",
+  "name": "Line Feeder",
 
-  "description": "Allow you to get notifications immediately as desktop ones",
+  "description": "Stores just a line",
+
+  "browser_action": {
+    "default_popup": "index.html"
+  },
 
   "icons": {
-    "32": "icon.png",
-    "64": "icon.png"
   },
 
   "background": {
-    // "script": "jquery"
-    "page": "background.html"
   },
 
   "version": "1.0",
 
   "permissions": [
-    "notifications",
-    "https://twitter.com/i/notifications"
+    "storage"
   ]
 }

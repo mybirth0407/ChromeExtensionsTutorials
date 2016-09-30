@@ -1,3 +1,10 @@
+/*
+ * user to be logged in to site manually everytime for this plugin to work.
+ * ajax request to /i/notifications
+ * grab the data
+ * filter out all the data
+ */
+
 var messages = [];
 var ids = [];
 var latestId;
@@ -42,7 +49,9 @@ function engine() {
       chrome.notifications.create(firstRun);
       latestId = ids[0];
     }
+    /* there is some neew activity on user's account */
     else if (latestId != ids[0]) {
+      /* finding all the new notifications happend for user in 20000 ms */
       for (i = 0; latestId != ids.length; i++) {
         if (latestId == ids[i]) {
           break;
