@@ -1,23 +1,19 @@
 {
   "manifest_version": 2,
 
-  "name": "Line Feeder",
+  "name": "My Screen Recoder",
 
-  "description": "Stores just a line",
+  "description": "Allows you to record your screen!",
 
-  "browser_action": {
-    "default_popup": "index.html"
-  },
-
-  "icons": {
-  },
-
-  "background": {
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
   },
 
   "version": "1.0",
 
   "permissions": [
-    "storage"
+    "desktopCapture"
   ]
 }
