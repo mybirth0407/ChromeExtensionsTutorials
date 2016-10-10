@@ -1,11 +1,8 @@
-chrome.app.runtime.onLaunched.addListener(function() {
-  // console.log("Link Clicked");
-  chrome.app.window.create("index.html", {
-    bounds: {
-      // width: 500,
-      // height: 500
-      width: 800,
-      height: 800
-    }
-  });
+chrome.browserAction.onClicked.addListener(function() {
+  /* chrome-extension://blahblahblah.file-name.html */
+  chrome.tabs.create({url: chrome.extension.getURL("yedarm.html")}, callback);
 });
+
+// function callback(data) {
+//   console.log(data.url);
+// }
